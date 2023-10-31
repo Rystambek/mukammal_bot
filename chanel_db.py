@@ -19,7 +19,14 @@ class CHANEL:
             self.db['Users'][f"{chat_id}"] = {"lang":'uz'}
             self.db['Users'][f"{chat_id}"]['username']=user_name
             self.db['Users'][f"{chat_id}"]['status']='member'
+            self.db['Users'][f"{chat_id}"]['chanel'] = False
         return None
+    
+    def get_chanel(self,chat_id):
+        return self.db['Users'][f"{chat_id}"]['chanel']
+    
+    def add_chanel(self,chat_id):
+        self.db['Users'][f"{chat_id}"]['chanel'] = True
 
     def get_admin(self,chat_id):
         return self.db['Users'][f"{chat_id}"]['status']
