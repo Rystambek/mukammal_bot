@@ -15,11 +15,14 @@ class CHANEL:
                 json.dump(self.db, f, indent=4)
     
     def starting(self,chat_id,user_name):
-        print(chat_id not in self.db.get('Users').keys())
-        if  (chat_id not in self.db.get('Users').keys()):
-            self.db['Users'][f"{chat_id}"] = {"lang":'Uz'}
-            self.db['Users'][f"{chat_id}"]['fist_name']=user_name
+        if  (f"{chat_id}" not in self.db.get('Users').keys()):
+            self.db['Users'][f"{chat_id}"] = {"lang":'uz'}
+            self.db['Users'][f"{chat_id}"]['username']=user_name
+            self.db['Users'][f"{chat_id}"]['status']='member'
         return None
+
+    def get_admin(self,chat_id):
+        return self.db['Users'][f"{chat_id}"]['status']
 
     def save(self):
         with open(self.db_path, 'w') as f:
@@ -34,8 +37,6 @@ class CHANEL:
     def get_lang(self,chat_id):
         return self.db['Users'][f'{chat_id}']['lang']
     
-    def obuna(self,chat_id):
-        return self.db['Users'][chat_id]['obuna']
     
     def get_channel(self):
         return self.db['chanel']['1'],self.db['chanel']['2']
@@ -45,6 +46,21 @@ class CHANEL:
         self.db['chanel']['2']=chan2
         return 'Ok'
     
-
-# chanel = CHANEL('chanel_db.json')
-# chanel.starting(15, "user_name")
+    def get_users(self):
+        return self.db['Users']
+    
+    def creator(self):
+        users = self.db['Users']
+        admins = []
+        for user,data in users.items():
+            if data['status'] == 'creator':
+                admins.append(user)
+        return admins
+    
+    def member(self):
+        users = self.db['Users']
+        members = []
+        for user,data in users.items():
+            if data['status'] == 'member':
+                members.append(user)
+        return members

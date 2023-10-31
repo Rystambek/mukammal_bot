@@ -4,13 +4,10 @@
         "2": "https://t.me/Rustambek15649"
     },
     "Users": {
-        "5697662988": {
-            "lang": "Uz",
-            "fist_name": "OG'ABEK"
-        },
         "996172963": {
-            "lang": "Uz",
-            "fist_name": "\u27aa\ud83d\udc99 Rustambek \u27aa\ud83d\udc99"
+            "lang": "uz",
+            "username": "\u27aa\ud83d\udc99 Rustambek \u27aa\ud83d\udc99",
+            "status": "creator"
         }
     }
 }
