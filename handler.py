@@ -1,8 +1,10 @@
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, KeyboardButton, ReplyKeyboardMarkup
 from telegram.ext import Updater, Dispatcher, CommandHandler, MessageHandler, Filters, CallbackContext, CallbackQueryHandler
 from chanel_db import CHANEL
+from db import DB
 
 chanel = CHANEL('chanel_db.json')
+db = DB('db.json')
 
 def start(update:Update, context:CallbackContext):
     bot = context.bot
@@ -96,3 +98,31 @@ def tekshir(update:Update, context:CallbackContext):
             ]
         )
         bot.edit_message_text(chat_id=user_id,text=text,message_id=message_id,reply_markup=keyboard,parse_mode="MarkdownV2")
+
+def magazin(update:Update,context:CallbackContext):
+    query = update.callback_query
+    bot = context.bot
+    breads = db.get_tables()
+    keyboard = []
+    row = []
+    for brend in breads:
+        if len(row) != 4:
+            btn = InlineKeyboardButton(
+                text = brend.capitalize(),
+                callback_data=f'brend_{brend}'
+            )
+            row.append(btn)
+        else:
+            keyboard.append(row)
+            row = []
+            btn = InlineKeyboardButton(
+            text = brend.capitalize(),
+            callback_data=f"brend_{brend}"
+            )
+            row.append(btn)
+    keyboard.append(row)
+    
+    menu = InlineKeyboardButton(text="🏘 Bosh Menu", callback_data="bosh_menu")
+    keyboard.append([menu])
+    keyboard = InlineKeyboardMarkup(keyboard)
+    bot.edit_message_text(chat_id = query.message.chat.id,message_id = query.message.message_id,text="Quyidagi brandlardan birini tanlang!",reply_markup=keyboard)
